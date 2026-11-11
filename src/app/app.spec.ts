@@ -1,14 +1,20 @@
 import { TestBed } from '@angular/core/testing';
 import { App } from './app';
+import { AppModule } from './app-module';
+import { CafeService } from './cafe/cafe.service';
+import { of } from 'rxjs';
 
 describe('App', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        App
+      imports: [AppModule],
+      providers: [
+        {
+          provide: CafeService,
+          useValue: { getCafes: () => of([]) },
+        },
       ],
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   it('should create the app', () => {
@@ -19,8 +25,9 @@ describe('App', () => {
 
   it('should render title', async () => {
     const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, parcial-misw4104');
+    expect(compiled.querySelector('h2')?.textContent).toContain('El aroma mágico');
   });
 });
